@@ -69,19 +69,25 @@ def admin(request: Request):
     role = request.cookies.get('role')
     user_id = request.cookies.get('user_id')
     
-    print(f"DEBUG /admin: role={role}, user_id={user_id}")
-    
     if role != "admin" or not user_id:
         return RedirectResponse('/login', status_code=302)
 
+    # Получаем фильтр из URL
+    status_filter = request.query_params.get('status', '')
+    
     with Session(bind=engine) as session:
-        s = select(Record, User).where(Record.user_id == User.id)
-        records = session.exec(s).all()
+        query = select(Record, User).where(Record.user_id == User.id)
+        
+        # Применяем фильтр (если выбран)
+        if status_filter:
+            query = query.where(Record.status == status_filter)
+        
+        records = session.exec(query).all()
 
     return templates.TemplateResponse(
         request,
         'admin.html',
-        { "records": records }
+        { "records": records, "status_filter": status_filter }
     )
 
 

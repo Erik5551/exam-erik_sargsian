@@ -1,39 +1,60 @@
-{% extends '_layout.html' %}
-
-{% block nav %}
-    <a href="/logout">Выйти</a>
-{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-    <table>
+<div class="container">
+    <h1>Панель администратора</h1>
+    
+    <!-- Форма фильтрации -->
+    <form method="get" action="/admin" style="margin-bottom: 20px;">
+        <select name="status">
+            <option value="">Все заявки</option>
+            <option value="Новая" {% if status_filter == 'Новая' %}selected{% endif %}>Новая</option>
+            <option value="Идет обучение" {% if status_filter == 'Идет обучение' %}selected{% endif %}>Идет обучение</option>
+            <option value="Обучение завершено" {% if status_filter == 'Обучение завершено' %}selected{% endif %}>Обучение завершено</option>
+        </select>
+        <button type="submit">Фильтровать</button>
+    </form>
+    
+    <!-- Таблица заявок -->
+    <table border="1" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Пользователь</th>
-                <th>Курс</th>
-                <th>Оплата</th>
+                <th>Телефон</th>
+                <th>Транспорт</th>
                 <th>Дата</th>
+                <th>Оплата</th>
                 <th>Статус</th>
+                <th>Действие</th>
             </tr>
         </thead>
         <tbody>
-            {% for item, user in records %}
+            {% for record, user in records %}
             <tr>
-                <td>{{ user["fio"] }}</td>
-                <td>{{ item["course"] }}</td>
-                <td>{{ item["payment"] }}</td>
-                <td>{{ item["date"] }}</td>
+                <td>{{ record.id }}</td>
+                <td>{{ user.fio }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ record.course }}</td>
+                <td>{{ record.date }}</td>
+                <td>{{ record.payment }}</td>
+                <td>{{ record.status }}</td>
                 <td>
-                    <form method="post" action="/update/{{ item['id'] }}">
-                        <select name="status">
-                            <option value="Новая" {% if item['status'] == 'Новая' %} selected {% endif %}>Новая</option>
-                            <option value="Идёт обучение" {% if item['status'] == 'Идёт обучение' %} selected {% endif %}>Идёт обучение</option>
-                            <option value="Обучение завершено" {% if item['status'] == 'Обучение завершено' %} selected {% endif %}>Обучение завершено</option>
+                    <form action="/update/{{ record.id }}" method="post">
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="Новая" {% if record.status == 'Новая' %}selected{% endif %}>Новая</option>
+                            <option value="Идет обучение" {% if record.status == 'Идет обучение' %}selected{% endif %}>Идет обучение</option>
+                            <option value="Обучение завершено" {% if record.status == 'Обучение завершено' %}selected{% endif %}>Обучение завершено</option>
                         </select>
-                        <button type="submit">Сохранить</button>
                     </form>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    
+    {% if records|length == 0 %}
+    <p style="text-align: center; margin-top: 30px;">Нет заявок</p>
+    {% endif %}
+</div>
 {% endblock %}
