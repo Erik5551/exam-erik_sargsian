@@ -26,4 +26,36 @@
             {% endfor %}
         </tbody>
     </table>
+        <!-- Блок с моими отзывами -->
+    <h2>Мои отзывы</h2>
+    {% if feedbacks|length > 0 %}
+    <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+        <thead>
+            <tr>
+                <th>Заявка №</th>
+                <th>Отзыв</th>
+                <th>Оценка</th>
+                <th>Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fb in feedbacks %}
+            <tr>
+                <td>{{ fb.application_id }}</td>
+                <td>{{ fb.text }}</td>
+                <td>
+                    {% if fb.rating == 5 %}★★★★★
+                    {% elif fb.rating == 4 %}★★★★☆
+                    {% elif fb.rating == 3 %}★★★☆☆
+                    {% elif fb.rating == 2 %}★★☆☆☆
+                    {% else %}★☆☆☆☆{% endif %}
+                 </td>
+                <td>{{ fb.created_at }}<br><small style="color: gray;">{{ fb.created_at.split()[0] }}</small></td>
+             </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color: gray;">У вас пока нет отзывов. Отзывы можно оставить после завершения обучения.</p>
+    {% endif %}
 {% endblock %}

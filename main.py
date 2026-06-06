@@ -37,7 +37,14 @@ class UserAuth(SQLModel):
     login: str
     password: str
 
-
+class Feedback(SQLModel, table=True):
+    id: int | None = Field(primary_key=True, default=None)
+    user_id: int
+    application_id: int
+    text: str
+    rating: int = 5
+    created_at: str = Field(default_factory=lambda: __import__('datetime').datetime.now().strftime("%Y-%m-%d %H:%M:%S")) 
+    
 engine = create_engine(r'sqlite:///database.sqlite')
 SQLModel.metadata.create_all(bind=engine)
 
