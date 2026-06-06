@@ -1,0 +1,331 @@
+body {
+    min-height: 100dvh;
+    background: #f5f7fb;
+}
+
+.page {
+    min-height: 100dvh;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.header {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 0 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.logo {
+    height: 100%;
+    width: auto;
+    margin-right: auto;
+}
+
+/* ========== СЛАЙДЕР ========== */
+.glide__arrows {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.glide__arrow {
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.glide__arrow:hover {
+    background: #0056b3;
+}
+
+.glide__slide img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* ========== ВАЛИДАЦИЯ ФОРМ ========== */
+form p {
+    visibility: hidden;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: #dc3545;
+}
+
+input, select {
+    margin-bottom: 0 !important;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input:user-invalid + p {
+    visibility: visible;
+}
+
+form:has(:invalid) button {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* ========== ТАБЛИЦЫ (АДАПТИВ) ========== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+/* ========== ВСПЛЫВАЮЩИЕ УВЕДОМЛЕНИЯ (TOAST) ========== */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    z-index: 1000;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideUp 0.3s ease, fadeOut 3s ease 2.7s forwards;
+}
+
+.toast.error {
+    background: #dc3545;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* ========== КАРТОЧКИ ЗАЯВОК (ДЛЯ МОБИЛЬНЫХ) ========== */
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.card-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-new { background: #ffc107; color: #333; }
+.badge-progress { background: #17a2b8; color: white; }
+.badge-completed { background: #28a745; color: white; }
+
+/* ========== АДАПТАЦИЯ ПОД 390×844 (СМАРТФОН) ========== */
+@media (max-width: 390px) {
+    .page {
+        padding: 8px;
+        gap: 16px;
+    }
+    
+    .header {
+        height: 44px;
+        font-size: 0.9rem;
+    }
+    
+    /* Таблицы превращаем в карточки */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    
+    thead {
+        display: none;
+    }
+    
+    tr {
+        margin-bottom: 12px;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        border-bottom: 1px solid #eee;
+        gap: 10px;
+    }
+    
+    td:last-child {
+        border-bottom: none;
+    }
+    
+    td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #333;
+        width: 40%;
+        flex-shrink: 0;
+    }
+    
+    /* Слайдер на мобильных */
+    .glide__slide img {
+        height: 160px;
+    }
+    
+    .glide__arrow {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    /* Кнопки удобные для пальцев */
+    button, .glide__arrow, select, input {
+        min-height: 44px;
+    }
+    
+    /* Формы */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    /* Карточки заявок для мобильных (альтернатива таблице) */
+    .record-card {
+        background: white;
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .record-card .field {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .record-card .field:last-child {
+        border-bottom: none;
+    }
+    
+    .record-card .label {
+        font-weight: 600;
+        color: #555;
+    }
+    
+    .record-card .value {
+        color: #333;
+    }
+}
+
+/* ========== ДЛЯ ЭКРАНОВ ДО 480px ========== */
+@media (max-width: 480px) {
+    .glide__slide img {
+        height: 180px;
+    }
+}
+
+/* ========== ДЛЯ ДЕСКТОПА ========== */
+@media (min-width: 901px) {
+    .page {
+        padding: 24px;
+    }
+    
+    table {
+        display: table;
+        width: 100%;
+    }
+    
+    thead {
+        display: table-header-group;
+    }
+    
+    tr {
+        display: table-row;
+    }
+    
+    td {
+        display: table-cell;
+    }
+    
+    td::before {
+        display: none;
+    }
+}

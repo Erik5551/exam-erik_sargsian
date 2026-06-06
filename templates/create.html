@@ -1,0 +1,27 @@
+{% extends '_layout.html' %}
+
+{% block nav %}
+    <a href="/logout">Выйти</a>
+    <a href="/create">Создать заявку</a>
+{% endblock %}
+
+{% block content %}
+<form action="/create" method="post" novalidate>
+    <select name="course">
+        <option value="">Выберите вид транспорта</option>
+        <option value="Автобус">Автобус</option>
+        <option value="Электробус">Электробус</option>
+        <option value="Трамвай">Трамвай</option>
+    </select>
+
+    <input type="date" name="date" placeholder="Дата начала" required>
+    <p>Заполните поле</p>
+
+    <select name="payment">
+        <option value="Наличные">Наличные</option>
+        <option value="Перевод по номеру">Перевод по номеру</option>
+    </select>
+
+    <button type="submit">Отправить</button>
+</form>
+{% endblock %}
